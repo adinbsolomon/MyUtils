@@ -1,5 +1,5 @@
 # MyUtils
-### A simple code-reuse setup for windows
+### A simple but aspirationally-universal code-reuse setup for windows
 
 Many of my projects accumulate utils functions over time, and in many cases I will copy/paste utils functions from my other projects. My goal is to unify all of my projects' utils functions into a single package so I can reuse my code as much as possible. 
 
