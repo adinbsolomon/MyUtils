@@ -1,5 +1,6 @@
 
 import itertools
+import numpy as np
 
 if __name__ == "__main__":
     import general
@@ -34,7 +35,32 @@ class ProbDist:
                 new_state_probs[new_state] = 0
             new_state_probs[new_state] += new_prob
         return ProbDist(state_probs=new_state_probs, func=self.func)
+    def events(self):
+        return self.state_probs.keys()
     def prob(self, state):
         return self.state_probs.get(state) or 0.0
-
+    def probs(self):
+        return self.state_probs.items()
+    def probs_error(self):
+        return 1.0 - sum(self.probs.values())
+    def asMatrix(self, ordering, **kwargs):
+        asRow = kwargs.get("asRow") # default = False
+        sparse = kwargs.get("sparse") # default = False
+        m = np.zeros(shape=((1,len(ordering)) if asRow else (len(ordering),1)))
+        def set_element(i, e):
+            if asRow:
+                m[0,i] = e
+            else:
+                m[i,0] = e 
+        if sparse: # events in ordering don't need to match self.state_probs at all
+            for i, x in enumerate(ordering):
+                set_element(i, self.prob(x))
+        else: # Catch ordering errors
+            if len(ordering) != len(self.state_probs):
+                raise Exception(f"Invalid ordering length! {len(ordering)}, {len(self.state_probs)}")
+            if len(ordering) != len(set(ordering)):
+                raise Exception(f"Invalid ordering! Cannot contain duplicates")
+            for i, key in enumerate(ordering):
+                set_element(i, self.state_probs[key])
+        return m
 

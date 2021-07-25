@@ -6,15 +6,20 @@ import numpy as np
 def shuffle_rows(data, seed=0):
     return np.random.RandomState(seed=seed).permutation(data)
 def standardize(data, mean=None, std=None, return_stats=False):
+    np.seterr(divide='ignore')
     if type(mean) == type(None):
         mean = np.mean(data, axis=0)
     if type(std) == type(None):
         std  = np.std( data, axis=0, ddof=1)
     standardized_data = ((data - mean) / std)
+    np.seterr(divide='warn')
+    np.nan_to_num(standardized_data, copy=False)
     if return_stats:
         return standardized_data,  mean,  std
     else:
         return standardized_data
+def unstandardize(standardized_data, mean, std):
+    return (standardized_data * std) + mean
 def add_bias(data):
     biased_data = np.ones((data.shape[0], data.shape[1]+1))
     biased_data[:, 1:] = data
