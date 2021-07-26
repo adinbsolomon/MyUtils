@@ -11,6 +11,9 @@ def is_raveled(A):
 def is_2d(A):
     return len(A.shape) == 2
 
+def is_1Din2D(A):
+    return is_2d(A) and (1 in A.shape)
+
 def enforce_row(A):
     if is_raveled(A): return A.reshape(1, len(A))
     elif is_2d(A):
@@ -27,3 +30,6 @@ def enforce_column(A):
 
 def is_not_prob(A):
     return np.any(A > 1.0) or np.any(A < 0.0)
+
+def savetxt(A, path):
+    np.savetxt(path, A, delimiter=',')

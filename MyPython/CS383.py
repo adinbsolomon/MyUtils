@@ -13,7 +13,7 @@ def standardize(data, mean=None, std=None, return_stats=False):
         std  = np.std( data, axis=0, ddof=1)
     standardized_data = ((data - mean) / std)
     np.seterr(divide='warn')
-    np.nan_to_num(standardized_data, copy=False)
+    np.nan_to_num(standardized_data, copy=False, nan=1.0)
     if return_stats:
         return standardized_data,  mean,  std
     else:
