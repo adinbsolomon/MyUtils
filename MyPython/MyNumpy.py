@@ -33,3 +33,9 @@ def is_not_prob(A):
 
 def savetxt(A, path):
     np.savetxt(path, A, delimiter=',')
+
+def bound(A, lower, upper):
+    assert (lower < upper), f"lower must be strictly less than upper! {lower, upper = }"
+    A[np.where(A < lower)] = lower
+    A[np.where(A > upper)] = upper
+    return A
