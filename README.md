@@ -10,4 +10,3 @@ Simply fork this reposity, populate it with your code, run the setup.bat script,
 # Currently-Supported Languages
 1. Python
 2. ???
-3. Profit
